@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, Text, Flex, Box } from 'rebass/styled-components';
-import { StaticQuery, graphql } from 'gatsby';
+import { Box, Flex, Image, Text } from 'rebass/styled-components';
+import { graphql, StaticQuery } from 'gatsby';
 import styled from 'styled-components';
 import Fade from 'react-reveal/Fade';
 import Section from '../components/Section';
-import { CardContainer, Card } from '../components/Card';
+import { Card, CardContainer } from '../components/Card';
 import SocialLink from '../components/SocialLink';
 import Triangle from '../components/Triangle';
 import ImageSubtitle from '../components/ImageSubtitle';
@@ -104,60 +104,64 @@ const ProjectTag = styled.div`
 `;
 
 const Project = ({
-  name,
-  description,
-  projectUrl,
-  repositoryUrl,
-  type,
-  publishedDate,
-  logo,
-}) => (
-  <Card p={0}>
-    <Flex style={{ height: CARD_HEIGHT }}>
-      <TextContainer>
-        <span>
-          <Title my={2} pb={1} color="text">
-            {name}
-          </Title>
-        </span>
-        <Text width={[1]} style={{ overflow: 'auto' }} color="text">
-          {description}
-        </Text>
-      </TextContainer>
+                   name,
+                   description,
+                   projectUrl,
+                   repositoryUrl,
+                   type,
+                   publishedDate,
+                   logo,
+                 }) => (
+                   <Card p={0}>
+                     <Flex style={{ height: CARD_HEIGHT }}>
+                       <TextContainer>
+                         <span>
+                           <Title my={2} pb={1} color="text">
+                             {name}
+                           </Title>
+                         </span>
+                         <Text width={[1]} style={{ overflow: 'auto' }} color="text">
+                           {description}
+                         </Text>
+                       </TextContainer>
 
-      <ImageContainer>
-        <ProjectImage src={logo.image.src} alt={logo.title} />
-        <ProjectTag>
-          <Flex
-            style={{
+                       <ImageContainer>
+                         <ProjectImage src={logo && logo.image.src} alt={logo && logo.title} />
+                         <ProjectTag>
+                           <Flex
+                             style={{
               float: 'right',
             }}
-          >
-            <Box mx={1} fontSize={5}>
-              <SocialLink
-                name="Check repository"
-                fontAwesomeIcon="github"
-                url={repositoryUrl}
-              />
-            </Box>
-            <Box mx={1} fontSize={5}>
-              <SocialLink
-                name="See project"
-                fontAwesomeIcon="globe"
-                url={projectUrl}
-              />
-            </Box>
-          </Flex>
-          <ImageSubtitle bg="primary" color="white" y="bottom" x="right" round>
-            {type}
-          </ImageSubtitle>
-          <Hide query={MEDIA_QUERY_SMALL}>
-            <ImageSubtitle bg="backgroundDark">{publishedDate}</ImageSubtitle>
-          </Hide>
-        </ProjectTag>
-      </ImageContainer>
-    </Flex>
-  </Card>
+                           >
+                             {repositoryUrl && (
+                             <Box mx={1} fontSize={5}>
+                               <SocialLink
+                                 name="Check repository"
+                                 fontAwesomeIcon="github"
+                                 url={repositoryUrl}
+                               />
+                             </Box>
+            )}
+                             {projectUrl && (
+                             <Box mx={1} fontSize={5}>
+                               <SocialLink
+                                 name="See project"
+                                 fontAwesomeIcon="globe"
+                                 url={projectUrl}
+                               />
+                             </Box>
+            )}
+                           </Flex>
+                           <ImageSubtitle bg="primary" color="white" y="bottom" x="right" round>
+                             {type}
+                           </ImageSubtitle>
+                           <Hide query={MEDIA_QUERY_SMALL}>
+                             <ImageSubtitle bg="backgroundDark">{publishedDate}</ImageSubtitle>
+                           </Hide>
+                         </ProjectTag>
+                       </ImageContainer>
+                     </Flex>
+                   </Card>
 );
 
 Project.propTypes = {
@@ -201,7 +205,7 @@ const Projects = () => (
         }
       `}
       render={({ contentfulAbout }) => (
-        <CardContainer minWidth="350px">
+        <CardContainer minWidth="450px">
           {contentfulAbout.projects.map((p, i) => (
             <Fade bottom delay={i * 200} key={p.id}>
               <Project {...p} />
